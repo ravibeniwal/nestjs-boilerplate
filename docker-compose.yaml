@@ -9,7 +9,10 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
-
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
   maildev:
     build:
       context: .
@@ -37,5 +40,37 @@ services:
     ports:
       - ${APP_PORT}:${APP_PORT}
 
+  orders:
+    build:
+      context: .
+      dockerfile: ./apps/orders/Dockerfile
+      target: development
+    command: npm run start:dev orders
+    env_file:
+      - ./apps/orders/.env
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - '3000:3000'
+
+
+    
+  # auth:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/auth/Dockerfile
+  #     target: development
+  #   command: npm run start:dev auth
+  #   ports:
+  #     - '3001:3001'
+  #   env_file:
+  #     - ./apps/auth/.env
+  #   depends_on:
+  #     - rabbitmq
+   
+  
+
 volumes:
   boilerplate-db:
+    driver: local

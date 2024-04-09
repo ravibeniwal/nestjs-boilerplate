@@ -13,12 +13,18 @@ export class AuthTwitterService {
     loginDto: AuthTwitterLoginDto,
   ): Promise<SocialInterface> {
     const twitter = new Twitter({
-      consumer_key: this.configService.getOrThrow('twitter.consumerKey', {
-        infer: true,
-      }),
-      consumer_secret: this.configService.getOrThrow('twitter.consumerSecret', {
-        infer: true,
-      }),
+      consumer_key: this.configService.getOrThrow<string>(
+        'twitter.consumerKey',
+        {
+          infer: true,
+        },
+      ),
+      consumer_secret: this.configService.getOrThrow<string>(
+        'twitter.consumerSecret',
+        {
+          infer: true,
+        },
+      ),
       access_token_key: loginDto.accessTokenKey,
       access_token_secret: loginDto.accessTokenSecret,
     });

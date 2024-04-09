@@ -216,10 +216,10 @@ export class AuthService {
         confirmEmailUserId: user.id,
       },
       {
-        secret: this.configService.getOrThrow('auth.confirmEmailSecret', {
+        secret: this.configService.getOrThrow<string>('auth.confirmEmailSecret', {
           infer: true,
         }),
-        expiresIn: this.configService.getOrThrow('auth.confirmEmailExpires', {
+        expiresIn: this.configService.getOrThrow<string>('auth.confirmEmailExpires', {
           infer: true,
         }),
       },
@@ -240,7 +240,7 @@ export class AuthService {
       const jwtData = await this.jwtService.verifyAsync<{
         confirmEmailUserId: User['id'];
       }>(hash, {
-        secret: this.configService.getOrThrow('auth.confirmEmailSecret', {
+        secret: this.configService.getOrThrow<string>('auth.confirmEmailSecret', {
           infer: true,
         }),
       });
@@ -287,7 +287,7 @@ export class AuthService {
       });
     }
 
-    const tokenExpiresIn = this.configService.getOrThrow('auth.forgotExpires', {
+    const tokenExpiresIn = this.configService.getOrThrow<string>('auth.forgotExpires', {
       infer: true,
     });
 
@@ -298,7 +298,7 @@ export class AuthService {
         forgotUserId: user.id,
       },
       {
-        secret: this.configService.getOrThrow('auth.forgotSecret', {
+        secret: this.configService.getOrThrow<string>('auth.forgotSecret', {
           infer: true,
         }),
         expiresIn: tokenExpiresIn,
@@ -321,7 +321,7 @@ export class AuthService {
       const jwtData = await this.jwtService.verifyAsync<{
         forgotUserId: User['id'];
       }>(hash, {
-        secret: this.configService.getOrThrow('auth.forgotSecret', {
+        secret: this.configService.getOrThrow<string>('auth.forgotSecret', {
           infer: true,
         }),
       });
@@ -495,7 +495,7 @@ export class AuthService {
     sessionId: Session['id'];
     hash: Session['hash'];
   }) {
-    const tokenExpiresIn = this.configService.getOrThrow('auth.expires', {
+    const tokenExpiresIn = this.configService.getOrThrow<string>('auth.expires', {
       infer: true,
     });
 
@@ -509,7 +509,7 @@ export class AuthService {
           sessionId: data.sessionId,
         },
         {
-          secret: this.configService.getOrThrow('auth.secret', { infer: true }),
+          secret: this.configService.getOrThrow<string>('auth.secret', { infer: true }),
           expiresIn: tokenExpiresIn,
         },
       ),
@@ -519,10 +519,10 @@ export class AuthService {
           hash: data.hash,
         },
         {
-          secret: this.configService.getOrThrow('auth.refreshSecret', {
+          secret: this.configService.getOrThrow<string>('auth.refreshSecret', {
             infer: true,
           }),
-          expiresIn: this.configService.getOrThrow('auth.refreshExpires', {
+          expiresIn: this.configService.getOrThrow<string>('auth.refreshExpires', {
             infer: true,
           }),
         },
